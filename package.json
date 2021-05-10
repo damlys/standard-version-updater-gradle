@@ -1,0 +1,49 @@
+{
+  "name": "@damlys/standard-version-updater-gradle",
+  "version": "1.0.0-0",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "The conventional-changelog/standard-version updater for Gradle build files.",
+  "keywords": [
+    "conventional-changelog",
+    "java",
+    "gradle",
+    "standard-version",
+    "standard-version-updater",
+    "updater"
+  ],
+  "author": "Damian Łysiak",
+  "contributors": [],
+  "license": "UNLICENSE",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/damlys/standard-version-updater-gradle.git"
+  },
+  "bugs": {
+    "url": "https://github.com/damlys/standard-version-updater-gradle/issues"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/build-gradle.js",
+  "types": "dist/build-gradle.d.ts",
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=5.6.0"
+  },
+  "devDependencies": {
+    "@damlys/ts-sdk": "^1.0.1"
+  },
+  "scripts": {
+    "build": "rm -rf ./dist && tsc",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint './**/*.{ts,tsx}' --fix",
+    "lint:check": "eslint './**/*.{ts,tsx}'",
+    "test": "jest --verbose",
+    "test:coverage": "rm -rf ./coverage && jest --coverage",
+    "test:watch": "jest --watchAll"
+  }
+}

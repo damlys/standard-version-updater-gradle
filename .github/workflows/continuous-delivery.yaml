@@ -1,0 +1,49 @@
+name: Continuous Delivery
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "**"
+      - "!**.md"
+  pull_request:
+    paths:
+      - "**"
+      - "!**.md"
+jobs:
+  job0:
+    runs-on: ubuntu-20.04
+    env:
+      NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
+      NODE_ENV: development
+    steps:
+      - name: Set Git user
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+      - name: Clone repository
+        uses: actions/checkout@v2
+      - name: Run NPM vulnerability scanning
+        run: npm audit --audit-level=high
+      - name: Install dependencies
+        run: npm install
+      - if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+        name: Bump version (prerelease)
+        run: npm version prerelease --message "Prerelease %s"
+      - if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        name: Bump version (release)
+        run: npm version patch --message "Release %s"
+      - name: Build
+        run: npm run build
+      - name: Run code format check
+        run: npm run format:check
+      - name: Run code lint check
+        run: npm run lint:check
+      - name: Run code tests
+        run: npm run test
+      - if: github.event_name == 'push'
+        name: Publish package
+        run: npm publish
+      - if: github.event_name == 'push'
+        name: Publish version
+        run: git push && git push --tags

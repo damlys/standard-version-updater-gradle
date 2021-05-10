@@ -1,0 +1,9 @@
+{
+  "extends": "@damlys/ts-sdk/tsconfig.json",
+  "include": ["./src/**/*"],
+  "exclude": ["./node_modules", "./**/*.test.*", "./**/*.spec.*"],
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist"
+  }
+}
